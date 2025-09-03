@@ -11,6 +11,7 @@ export default defineConfig({
   },
   build: {
     outDir: "../build", // This matches what Render expects for React apps
+    emptyOutDir: true,
   },
   resolve: {
     alias: {
