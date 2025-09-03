@@ -124,7 +124,12 @@ const SignUp = () => {
               onChange={(e) => setAdminKey(e.target.value)}
             />
 
-
+            <PasswordInput
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+              }}
+            />
 
             {error && <p className="text-red-500 text-xs pb-1">{error}</p>}
 

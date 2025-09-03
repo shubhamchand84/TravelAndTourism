@@ -175,3 +175,144 @@ When deploying the application with Cloudinary for image storage:
 3. Set `STORAGE_TYPE=cloudinary` in your production environment
 
 Refer to the `DEPLOYMENT.md` file for more details on configuring Cloudinary for production use.
+
+## Deploying to Render
+
+When deploying this application to Render, follow these guidelines to avoid common issues:
+
+### Monorepo Structure Considerations
+
+This project uses a monorepo structure with separate frontend and backend directories. For deployment:
+
+1. **Option 1: Deploy as Separate Services**
+   - Deploy the frontend and backend as separate services on Render
+   - Set up proper CORS configuration in the backend
+   - Configure environment variables for API endpoints
+
+2. **Option 2: Use Render Blueprints**
+   - Create a `render.yaml` file in the root directory to define both services
+   - Specify the correct build directories and commands for each
+
+   Example `render.yaml` for this project:
+
+   ```yaml
+   services:
+     - type: web
+       name: travel-diary-frontend
+       env: node
+       buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build
+       startCommand: cd frontend && npm run preview
+       envVars:
+         - key: NODE_VERSION
+           value: 18.18.0
+         - key: VITE_API_URL
+           value: https://travel-diary-backend.onrender.com
+
+     - type: web
+       name: travel-diary-backend
+       env: node
+       buildCommand: cd backend && npm install
+       startCommand: cd backend && npm start
+       envVars:
+         - key: NODE_VERSION
+           value: 18.18.0
+         - key: MONGODB_URI
+           sync: false
+         - key: JWT_SECRET
+           sync: false
+         - key: CORS_ORIGIN
+           value: https://travel-diary-frontend.onrender.com
+   ```
+
+### Frontend Deployment
+
+1. Create a Web Service in Render and connect to your Git repository
+2. Set the build command to: `npm install --legacy-peer-deps && npm run build`
+3. Set the start command to: `npm run preview` or use a static site configuration
+4. Ensure your Node.js version is compatible (Render default is 22.16.0)
+5. Important: Make sure your `public` directory contains an `index.html` file
+6. For Vite projects, set the publish directory to `dist` (default Vite build output)
+
+### Backend Deployment
+
+1. Create a separate Web Service for the backend
+2. Set the build command to: `npm install`
+3. Set the start command to: `npm start`
+4. Configure environment variables for:
+   - `MONGODB_URI`: Your MongoDB connection string
+   - `JWT_SECRET`: Secret for JWT token generation
+   - Any other required environment variables
+
+### Common Deployment Issues
+
+1. **Missing index.html**: If you see an error like `Could not find a required file. Name: index.html`, check:
+   - The build output directory configuration in your Vite config
+   - That your project structure matches what Render expects
+   - For Vite projects, ensure you're pointing to the correct build output directory (`dist`)
+   
+   To fix this specific issue with the current project structure:
+   
+   ```bash
+   # For a Vite project being deployed as a React app on Render
+   # Create a vite.config.js file that explicitly sets the build output directory
+   cat > frontend/vite.config.js << 'EOF'
+   import { defineConfig } from 'vite'
+   import react from '@vitejs/plugin-react'
+
+   // https://vitejs.dev/config/
+   export default defineConfig({
+     plugins: [react()],
+     build: {
+       outDir: '../build', // This matches what Render expects for React apps
+     },
+   })
+   EOF
+   ```
+   
+   Alternatively, you can modify the Render service to use the correct output directory:
+   
+   ```bash
+   # In your Render dashboard, set the publish directory to:
+   frontend/dist
+   ```
+
+2. **Node.js Version**: If you need a specific Node.js version, set it using:
+   - A `.node-version` file in your repository root
+   - The `NODE_VERSION` environment variable in Render
+   - The `engines` field in your `package.json`
+
+3. **Dependency Issues**: Use `--legacy-peer-deps` flag when installing dependencies if you encounter compatibility issues
+
+4. **CORS Issues**: Ensure your backend has proper CORS configuration to allow requests from your frontend domain
+
+5. **Environment Variables**: Ensure all required environment variables are set in the Render dashboard
+
+6. For more troubleshooting help, refer to: [Render Troubleshooting Guide](https://render.com/docs/troubleshooting-deploys)
+
+## Security Best Practices
+
+1. **Environment Variables**: Never commit sensitive information like API keys, database credentials, or JWT secrets to your repository
+   - Use environment variables on your deployment platform
+   - Include a `.env.example` file in your repository with dummy values as a template
+
+2. **Dependency Auditing**: Regularly check for vulnerabilities in your dependencies
+   ```bash
+   npm audit
+   # To fix vulnerabilities when possible
+   npm audit fix
+   ```
+
+3. **CORS Configuration**: Configure CORS in your backend to only allow requests from trusted domains
+   ```javascript
+   // Example CORS configuration in Express
+   import cors from 'cors';
+   
+   app.use(cors({
+     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+     credentials: true
+   }));
+   ```
+
+4. **Content Security Policy**: Implement a Content Security Policy in your frontend to prevent XSS attacks
+
+5. **Regular Updates**: Keep your dependencies updated to patch security vulnerabilities

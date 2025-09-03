@@ -12,11 +12,6 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return next(errorHandler(401, "Unauthorized"))
     }
-    
-    // Check if user is an admin
-    if (!user.isAdmin) {
-      return next(errorHandler(403, "Access restricted to administrators only"))
-    }
 
     req.user = user
 

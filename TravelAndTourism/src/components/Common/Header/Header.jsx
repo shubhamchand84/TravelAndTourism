@@ -51,8 +51,6 @@ const Header = () => {
     { path: "/contact", label: "CONTACT" },
     // Link to public view of Travel Diary app
     { label: "TRAVEL DIARY", external: true, href: "http://localhost:5174/public" },
-    // Link to main Travel And Tourism site
-    { label: "MAIN SITE", external: false, path: "/" },
   ];
 
   return (

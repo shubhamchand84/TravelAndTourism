@@ -43,8 +43,6 @@ const Login = () => {
         email,
         password,
       })
-      
-      // The backend will verify if the user is an admin
 
       if (response.data) {
         dispatch(signInSuccess(response.data))

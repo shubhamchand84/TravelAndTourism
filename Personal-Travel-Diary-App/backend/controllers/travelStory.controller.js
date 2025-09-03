@@ -224,41 +224,19 @@ export const deleteTravelStory = async (req, res, next) => {
     // Check if the image is not a placeholder before deleting
     const PORT = process.env.PORT || 5000
     const placeholderImageUrl = `http://localhost:${PORT}/assets/placeholderImage.png`
-    const storageType = process.env.STORAGE_TYPE || 'local'
 
-    // Extract the imageUrl from the travel story
+    // Extract the filename from the imageUrl
     const imageUrl = travelStory.imageUrl
 
     if (imageUrl && imageUrl !== placeholderImageUrl) {
-      if (storageType === 'local') {
-        // Local file deletion
-        // Extract the filename from the image url
-        const filename = path.basename(imageUrl)
-        const filePath = path.join(rootDir, "uploads", filename)
+      // Extract the filename from the image url
+      const filename = path.basename(imageUrl)
+      const filePath = path.join(rootDir, "uploads", filename)
 
-        // Check if the file exists before deleting
-        if (fs.existsSync(filePath)) {
-          // delete the file
-          await fs.promises.unlink(filePath) // delete the file asynchronously
-        }
-      } else if (storageType === 'cloudinary' && imageUrl.includes('cloudinary.com')) {
-        try {
-          // Import cloudinary dynamically
-          const cloudinary = (await import('../config/cloudinary.js')).default
-          
-          // Extract public_id from the URL
-          const urlParts = imageUrl.split('/')
-          const filenameWithExtension = urlParts[urlParts.length - 1]
-          const filename = filenameWithExtension.split('.')[0]
-          const folderName = urlParts[urlParts.length - 2]
-          const public_id = `${folderName}/${filename}`
-          
-          // Delete from Cloudinary
-          await cloudinary.uploader.destroy(public_id)
-        } catch (cloudinaryError) {
-          console.error('Cloudinary deletion error during story deletion:', cloudinaryError)
-          // Continue with story deletion even if image deletion fails
-        }
+      // Check if the file exists before deleting
+      if (file.existsSync(filePath)) {
+        // delete the file
+        await fs.promises.unlink(filePath) // delete the file asynchronously
       }
     }
 

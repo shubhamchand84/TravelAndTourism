@@ -7,7 +7,6 @@ import {
   editTravelStory,
   filterTravelStories,
   getAllTravelStory,
-  getPublicTravelStories,
   imageUpload,
   searchTravelStory,
   updateIsFavourite,
@@ -33,8 +32,5 @@ router.put("/update-is-favourite/:id", verifyToken, updateIsFavourite)
 router.get("/search", verifyToken, searchTravelStory)
 
 router.get("/filter", verifyToken, filterTravelStories)
-
-// Public route to get all travel stories (no authentication required)
-router.get("/public", getPublicTravelStories)
 
 export default router

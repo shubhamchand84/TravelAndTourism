@@ -4,7 +4,6 @@ import Home from "./pages/Home/Home"
 import Login from "./pages/Auth/Login"
 import SignUp from "./pages/Auth/SignUp"
 import PrivateRoute from "./components/PrivateRoute"
-import PublicView from "./pages/PublicView/PublicView"
 
 const App = () => {
   return (
@@ -17,7 +16,6 @@ const App = () => {
 
           <Route path="/login" exact element={<Login />} />
           <Route path="/sign-up" exact element={<SignUp />} />
-          <Route path="/public" exact element={<PublicView />} />
         </Routes>
       </BrowserRouter>
     </>

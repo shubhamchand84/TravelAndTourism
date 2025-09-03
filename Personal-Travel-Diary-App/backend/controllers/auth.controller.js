@@ -64,18 +64,13 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(404, "User not found"))
     }
 
-    // Check if user is an admin
-    if (!validUser.isAdmin) {
-      return next(errorHandler(403, "Access restricted to administrators only"))
-    }
-
     const validPassword = bcryptjs.compareSync(password, validUser.password)
 
     if (!validPassword) {
       return next(errorHandler(400, "Wrong Credentials"))
     }
 
-    const token = jwt.sign({ id: validUser._id, isAdmin: validUser.isAdmin }, process.env.JWT_SECRET)
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
 
     const { password: pass, ...rest } = validUser._doc
 
