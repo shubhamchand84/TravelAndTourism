@@ -1,0 +1,265 @@
+.tourlistings-container {
+  font-family: 'Segoe UI', sans-serif;
+  color: #1e293b;
+}
+
+/* Hero Section */
+.hero {
+  background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: 120px 20px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.hero-title,
+.hero-subtitle {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Content */
+.content {
+  max-width: 960px;
+  margin: 60px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #475569;
+  margin-bottom: 40px;
+}
+
+/* Tour Sections */
+.tour-section {
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.tour-section h3 {
+  font-size: 1.3rem;
+  color: #0d6efd;
+  margin-bottom: 8px;
+}
+
+.tour-section p {
+  font-size: 1rem;
+  color: #334155;
+}
+
+.tour-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.tour-section ul li {
+  padding: 6px 0;
+  color: #475569;
+}
+
+.tour-section ul li strong {
+  color: #0f172a;
+}
+
+/* Benefits Section */
+.benefits {
+  background-color: #f1f5f9;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.benefits h3 {
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  color: #0f172a;
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.benefits li {
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #475569;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.tour-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background: #fff;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+}
+
+.tour-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tour-content {
+  position: relative;
+}
+
+.category-icon {
+  position: absolute;
+  top: -25px;
+  right: 15px;
+  background: white;
+  padding: 8px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-btn {
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  background: #f0f0f0;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: #007bff;
+  color: white;
+}
+
+/* Existing styles for .tour-card etc. */
+
+/* Panch Kedar Styles */
+.panchkedar-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background: #f0f9f4;
+}
+.panchkedar-card:hover {
+  transform: scale(1.05);
+}
+.panchkedar-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+.panchkedar-content h5 {
+  color: #2c7a49; /* dark green */
+}
+.panchkedar-content p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Char Dham Styles */
+.chardham-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background: #eef4fb;
+}
+.chardham-card:hover {
+  transform: scale(1.05);
+}
+.chardham-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #ccc;
+}
+.chardham-content h5 {
+  color: #3b4cca; /* indigo */
+}
+.chardham-content p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Filter buttons */
+.filter-buttons .filter-btn {
+  margin: 0 8px;
+  padding: 8px 18px;
+  border: 1.5px solid #aaa;
+  background: white;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-buttons .filter-btn:hover,
+.filter-buttons .filter-btn.active {
+  background: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+/* Category icon */
+.category-icon {
+  font-size: 1.2rem;
+  color: #007bff;
+}
