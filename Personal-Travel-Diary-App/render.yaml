@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: travel-diary-frontend
+    env: node
+    buildCommand: cd frontend && npm install --legacy-peer-deps && npm run build
+    startCommand: cd frontend && npm run preview
+    envVars:
+      - key: NODE_VERSION
+        value: 18.18.0
+      - key: VITE_API_URL
+        fromService:
+          name: travel-diary-backend
+          type: web
+          property: url
+
+  - type: web
+    name: travel-diary-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.18.0
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        fromService:
+          name: travel-diary-frontend
+          type: web
+          property: url
